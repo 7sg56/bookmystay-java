@@ -30,7 +30,7 @@ public class Initialize {
         System.out.println("║    ╚████╔╝ ███████╗██║  ██╗███████╗██║  ██║                ║");
         System.out.println("║     ╚═══╝  ╚══════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝                ║");
         System.out.println("║                                                            ║");
-        System.out.println("║              HOTEL BOOKING SYSTEM v1.0                    ║");
+        System.out.println("║              HOTEL BOOKING SYSTEM v1.0                     ║");
         System.out.println("║                                                            ║");
         System.out.println("╚════════════════════════════════════════════════════════════╝");
         System.out.println();
@@ -47,7 +47,7 @@ public class Initialize {
         System.out.println("│  2. View Available Rooms                   │");
         System.out.println("│  3. Cancel Booking                         │");
         System.out.println("│  4. View All Bookings                      │");
-        System.out.println("│  5. Exit                                    │");
+        System.out.println("│  5. Exit                                   │");
         System.out.println("├────────────────────────────────────────────┤");
         System.out.println("│  Enter your choice (1-5):                  │");
         System.out.println("└────────────────────────────────────────────┘");
