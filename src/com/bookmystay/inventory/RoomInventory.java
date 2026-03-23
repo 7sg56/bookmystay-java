@@ -123,7 +123,7 @@ public class RoomInventory {
      */
     public void displayInventory() {
         System.out.println("╔════════════════════════════════════════════════════════════╗");
-        System.out.println("║            ROOM INVENTORY STATUS                          ║");
+        System.out.println("║                  ROOM INVENTORY STATUS                     ║");
         System.out.println("╚════════════════════════════════════════════════════════════╝");
         System.out.println();
         System.out.println("┌────────────────────────────────────────────────────────┐");
