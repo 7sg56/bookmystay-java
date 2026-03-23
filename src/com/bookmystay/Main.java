@@ -8,7 +8,6 @@ import java.util.Scanner;
 
 /**
  * Main entry point for the BookMyStay Hotel Booking Management System.
- * Features an interactive menu to browse different room types.
  *
  * @author BookMyStay Team
  * @version 2.0
@@ -38,11 +37,11 @@ public class Main {
     private static void runMainMenu() {
         while (true) {
             displayMainMenu();
-            int choice = getIntegerInput("Enter your choice (0 to exit): ");
+            int choice = getIntegerInput("Enter your choice: ");
 
             switch (choice) {
                 case 0:
-                    System.out.println("Thank you for using BookMyStay. Goodbye!");
+                    displayExitMessage();
                     scanner.close();
                     return;
                 case 1:
@@ -55,7 +54,7 @@ public class Main {
                     displayRoomSummary();
                     break;
                 default:
-                    System.out.println("Invalid choice. Please try again.");
+                    displayError("Invalid choice!");
             }
             System.out.println();
         }
@@ -65,101 +64,153 @@ public class Main {
      * Displays the main menu options.
      */
     private static void displayMainMenu() {
-        System.out.println("=".repeat(60));
-        System.out.println("           BookMyStay - Hotel Booking System");
-        System.out.println("=".repeat(60));
-        System.out.println("Main Menu:");
-        System.out.println("  1. View All Room Types");
-        System.out.println("  2. View Specific Room Type");
-        System.out.println("  3. View Room Availability Summary");
-        System.out.println("  0. Exit");
-        System.out.println("=".repeat(60));
+        System.out.println("┌────────────────────────────────────────────┐");
+        System.out.println("│              MAIN MENU                     │");
+        System.out.println("├────────────────────────────────────────────┤");
+        System.out.println("│  1. View All Room Types                     │");
+        System.out.println("│  2. View Specific Room Type                 │");
+        System.out.println("│  3. View Room Availability Summary          │");
+        System.out.println("│  0. Exit                                    │");
+        System.out.println("├────────────────────────────────────────────┤");
+        System.out.println("│  Enter your choice (0-3):                   │");
+        System.out.println("└────────────────────────────────────────────┘");
+    }
+
+    /**
+     * Displays the exit message.
+     */
+    private static void displayExitMessage() {
+        System.out.println("╔════════════════════════════════════════════════════════════╗");
+        System.out.println("║                                                            ║");
+        System.out.println("║               Thank you for using BookMyStay!              ║");
+        System.out.println("║                         Goodbye!                          ║");
+        System.out.println("║                                                            ║");
+        System.out.println("╚════════════════════════════════════════════════════════════╝");
+    }
+
+    /**
+     * Displays an error message.
+     */
+    private static void displayError(String message) {
+        System.out.println("┌────────────────────────────────────────────┐");
+        System.out.println("│  ERROR: " + message + " ".repeat(29 - message.length()) + "│");
+        System.out.println("└────────────────────────────────────────────┘");
+    }
+
+    /**
+     * Displays the header for displaying rooms.
+     */
+    private static void displayRoomHeader(String title) {
+        System.out.println("╔════════════════════════════════════════════════════════════╗");
+        System.out.println("║              " + title + " ".repeat(48 - title.length()) + "║");
+        System.out.println("╚════════════════════════════════════════════════════════════╝");
+    }
+
+    /**
+     * Displays a room type in ASCII box style.
+     */
+    private static void displayRoomBox(Room room, int available) {
+        String type = room.getRoomType();
+        String desc = room.getDescription();
+        String truncatedDesc = desc.length() > 54 ? desc.substring(0, 54) : desc;
+
+        System.out.println("┌────────────────────────────────────────────────────────┐");
+        System.out.printf("│  %s ROOM%s│%n", type, " ".repeat(44 - type.length()));
+        System.out.println("├────────────────────────────────────────────────────────┤");
+        System.out.println("│  Description:                                             │");
+        System.out.printf("│    %s%s  │%n", truncatedDesc, " ".repeat(54 - truncatedDesc.length()));
+        System.out.println("├────────────────────────────────────────────────────────┤");
+        System.out.printf("│  Beds: %-4d  Size: %-4d sq ft  Price: $%-8.2f/night    │%n",
+                room.getNumberOfBeds(), room.getSize(), room.getPrice());
+        System.out.printf("│  Available: %d room(s)%35s│%n", available, " ");
+        System.out.println("└────────────────────────────────────────────────────────┘");
     }
 
     /**
      * Displays all room types with their details and availability.
      */
     private static void displayAllRooms() {
-        System.out.println("\n--- All Available Room Types ---\n");
-
-        displayRoom(new StudioRoom(), studioRoomAvailability);
+        displayRoomHeader("AVAILABLE ROOM TYPES");
         System.out.println();
 
-        displayRoom(new SingleRoom(), singleRoomAvailability);
+        displayRoomBox(new StudioRoom(), studioRoomAvailability);
         System.out.println();
 
-        displayRoom(new DoubleRoom(), doubleRoomAvailability);
+        displayRoomBox(new SingleRoom(), singleRoomAvailability);
         System.out.println();
 
-        displayRoom(new DeluxeRoom(), deluxeRoomAvailability);
+        displayRoomBox(new DoubleRoom(), doubleRoomAvailability);
         System.out.println();
 
-        displayRoom(new FamilyRoom(), familyRoomAvailability);
+        displayRoomBox(new DeluxeRoom(), deluxeRoomAvailability);
         System.out.println();
 
-        displayRoom(new OceanViewRoom(), oceanViewRoomAvailability);
+        displayRoomBox(new FamilyRoom(), familyRoomAvailability);
         System.out.println();
 
-        displayRoom(new SuiteRoom(), suiteRoomAvailability);
+        displayRoomBox(new OceanViewRoom(), oceanViewRoomAvailability);
         System.out.println();
 
-        displayRoom(new PenthouseRoom(), penthouseRoomAvailability);
+        displayRoomBox(new SuiteRoom(), suiteRoomAvailability);
+        System.out.println();
+
+        displayRoomBox(new PenthouseRoom(), penthouseRoomAvailability);
     }
 
     /**
      * Displays a sub-menu for selecting and viewing a specific room type.
      */
     private static void displayRoomByMenu() {
-        System.out.println("\n--- Select Room Type ---\n");
-        System.out.println("  1. Studio Room      - $60/night");
-        System.out.println("  2. Single Room      - $75/night");
-        System.out.println("  3. Double Room      - $120/night");
-        System.out.println("  4. Deluxe Room      - $150/night");
-        System.out.println("  5. Family Room      - $200/night");
-        System.out.println("  6. Ocean View Room  - $180/night");
-        System.out.println("  7. Suite Room       - $250/night");
-        System.out.println("  8. Penthouse Room   - $500/night");
-        System.out.println("  0. Back to Main Menu");
+        System.out.println("╔════════════════════════════════════════════════════════════╗");
+        System.out.println("║              SELECT ROOM TYPE                             ║");
+        System.out.println("╚════════════════════════════════════════════════════════════╝");
+        System.out.println();
+        System.out.println("┌────────────────────────────────────────────────────────┐");
+        System.out.println("│  1. Studio Room      - $60/night  (200 sq ft)          │");
+        System.out.println("│  2. Single Room      - $75/night  (250 sq ft)          │");
+        System.out.println("│  3. Double Room      - $120/night (350 sq ft)          │");
+        System.out.println("│  4. Deluxe Room      - $150/night (320 sq ft)          │");
+        System.out.println("│  5. Family Room      - $200/night (500 sq ft)          │");
+        System.out.println("│  6. Ocean View Room  - $180/night (300 sq ft)          │");
+        System.out.println("│  7. Suite Room       - $250/night (600 sq ft)          │");
+        System.out.println("│  8. Penthouse Room   - $500/night (1200 sq ft)         │");
+        System.out.println("│  0. Back to Main Menu                                     │");
+        System.out.println("├────────────────────────────────────────────────────────┤");
+        System.out.println("│  Enter your choice (0-8):                               │");
+        System.out.println("└────────────────────────────────────────────────────────┘");
 
-        int choice = getIntegerInput("\nEnter your choice: ");
+        int choice = getIntegerInput("");
 
+        System.out.println();
         switch (choice) {
             case 1:
-                System.out.println();
-                displayRoom(new StudioRoom(), studioRoomAvailability);
+                displayRoomBox(new StudioRoom(), studioRoomAvailability);
                 break;
             case 2:
-                System.out.println();
-                displayRoom(new SingleRoom(), singleRoomAvailability);
+                displayRoomBox(new SingleRoom(), singleRoomAvailability);
                 break;
             case 3:
-                System.out.println();
-                displayRoom(new DoubleRoom(), doubleRoomAvailability);
+                displayRoomBox(new DoubleRoom(), doubleRoomAvailability);
                 break;
             case 4:
-                System.out.println();
-                displayRoom(new DeluxeRoom(), deluxeRoomAvailability);
+                displayRoomBox(new DeluxeRoom(), deluxeRoomAvailability);
                 break;
             case 5:
-                System.out.println();
-                displayRoom(new FamilyRoom(), familyRoomAvailability);
+                displayRoomBox(new FamilyRoom(), familyRoomAvailability);
                 break;
             case 6:
-                System.out.println();
-                displayRoom(new OceanViewRoom(), oceanViewRoomAvailability);
+                displayRoomBox(new OceanViewRoom(), oceanViewRoomAvailability);
                 break;
             case 7:
-                System.out.println();
-                displayRoom(new SuiteRoom(), suiteRoomAvailability);
+                displayRoomBox(new SuiteRoom(), suiteRoomAvailability);
                 break;
             case 8:
-                System.out.println();
-                displayRoom(new PenthouseRoom(), penthouseRoomAvailability);
+                displayRoomBox(new PenthouseRoom(), penthouseRoomAvailability);
                 break;
             case 0:
                 return;
             default:
-                System.out.println("Invalid choice.");
+                displayError("Invalid room type selection!");
         }
     }
 
@@ -167,38 +218,34 @@ public class Main {
      * Displays a summary of all room availabilities.
      */
     private static void displayRoomSummary() {
-        System.out.println("\n--- Room Availability Summary ---\n");
+        System.out.println("╔════════════════════════════════════════════════════════════╗");
+        System.out.println("║            ROOM AVAILABILITY SUMMARY                     ║");
+        System.out.println("╚════════════════════════════════════════════════════════════╝");
+        System.out.println();
+        System.out.println("┌────────────────────────────────────────────────────────┐");
+        System.out.println("│  Room Type        │ Available  │ Price / Night         │");
+        System.out.println("├────────────────────────────────────────────────────────┤");
 
         List<RoomSummary> summaries = new ArrayList<>();
-        summaries.add(new RoomSummary("Studio", studioRoomAvailability));
-        summaries.add(new RoomSummary("Single", singleRoomAvailability));
-        summaries.add(new RoomSummary("Double", doubleRoomAvailability));
-        summaries.add(new RoomSummary("Deluxe", deluxeRoomAvailability));
-        summaries.add(new RoomSummary("Family", familyRoomAvailability));
-        summaries.add(new RoomSummary("Ocean View", oceanViewRoomAvailability));
-        summaries.add(new RoomSummary("Suite", suiteRoomAvailability));
-        summaries.add(new RoomSummary("Penthouse", penthouseRoomAvailability));
+        summaries.add(new RoomSummary("Studio", studioRoomAvailability, 60.00));
+        summaries.add(new RoomSummary("Single", singleRoomAvailability, 75.00));
+        summaries.add(new RoomSummary("Double", doubleRoomAvailability, 120.00));
+        summaries.add(new RoomSummary("Deluxe", deluxeRoomAvailability, 150.00));
+        summaries.add(new RoomSummary("Family", familyRoomAvailability, 200.00));
+        summaries.add(new RoomSummary("Ocean View", oceanViewRoomAvailability, 180.00));
+        summaries.add(new RoomSummary("Suite", suiteRoomAvailability, 250.00));
+        summaries.add(new RoomSummary("Penthouse", penthouseRoomAvailability, 500.00));
 
-        System.out.println("Room Type        | Available");
-        System.out.println("-----------------+----------");
         int total = 0;
         for (RoomSummary summary : summaries) {
-            System.out.printf("%-16s | %d%n", summary.roomType, summary.available);
+            System.out.printf("│  %-16s │ %-10d │ $%-20.2f│%n",
+                    summary.roomType, summary.available, summary.price);
             total += summary.available;
         }
-        System.out.println("-----------------+----------");
-        System.out.printf("Total            | %d%n", total);
-    }
 
-    /**
-     * Displays room details along with its availability.
-     *
-     * @param room      the room to display
-     * @param available the number of available rooms of this type
-     */
-    private static void displayRoom(Room room, int available) {
-        room.displayDetails();
-        System.out.println("  Available: " + available + " room(s)");
+        System.out.println("├────────────────────────────────────────────────────────┤");
+        System.out.printf("│  %-16s │ %-10d │                      │%n", "TOTAL", total);
+        System.out.println("└────────────────────────────────────────────────────────┘");
     }
 
     /**
@@ -213,7 +260,7 @@ public class Main {
             try {
                 return Integer.parseInt(scanner.nextLine().trim());
             } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a number.");
+                displayError("Invalid input!");
             }
         }
     }
@@ -224,10 +271,12 @@ public class Main {
     private static class RoomSummary {
         String roomType;
         int available;
+        double price;
 
-        RoomSummary(String roomType, int available) {
+        RoomSummary(String roomType, int available, double price) {
             this.roomType = roomType;
             this.available = available;
+            this.price = price;
         }
     }
 }
