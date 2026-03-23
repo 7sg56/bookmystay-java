@@ -1,10 +1,19 @@
 package com.bookmystay;
 
 /**
- * Main entry point for the BookMyStay Hotel Booking Management System.
+ * Hotel Booking Management System - Main Entry Point.
+ *
+ * @author BookMyStay Team
+ * @version 1.0
  */
 public class Main {
+
+    /**
+     * Main method - application entry point.
+     *
+     * @param args command line arguments
+     */
     public static void main(String[] args) {
-        System.out.println("Welcome to BookMyStay - Hotel Booking Management System");
+        Initialize.init();
     }
 }
